@@ -37,6 +37,8 @@
     <hr />
 
     <!-- TODO #2 - Loop over jobs map to display all job fields -->
+    <h2 th:if="${isJobsEmpty}">No listings matched your search term :(</h2>
+    <h2 th:unless="${isJobsEmpty}" th:text="${resAmt} "></h2>
     <table th:each="job : ${jobs}" class="job-listing">
         <tr th:each="row : ${job}" >
             <td th:text="${row.value}">

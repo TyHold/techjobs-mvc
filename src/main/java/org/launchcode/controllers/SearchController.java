@@ -17,7 +17,7 @@ import java.util.HashMap;
 @RequestMapping("search")
 public class SearchController {
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "")
     public String search(Model model) {
         model.addAttribute("columns", ListController.columnChoices);
         return "search";
@@ -30,14 +30,20 @@ public class SearchController {
                           @RequestParam String searchTerm) {
         if (searchType.equals("all")) {
             ArrayList<HashMap<String, String>> jobs = JobData.findByValue(searchTerm);
+            boolean isJobsEmpty = jobs.isEmpty();
+            model.addAttribute("isJobsEmpty", isJobsEmpty);
             model.addAttribute("jobs", jobs);
             model.addAttribute("columns", ListController.columnChoices);
             model.addAttribute("defTerm", searchTerm);
+            model.addAttribute("resAmt", jobs.size() + " results found");
         } else {
             ArrayList<HashMap<String, String>> jobs = JobData.findByColumnAndValue(searchType, searchTerm);
+            boolean isJobsEmpty = jobs.isEmpty();
+            model.addAttribute("isJobsEmpty", isJobsEmpty);
             model.addAttribute("jobs", jobs);
             model.addAttribute("columns", ListController.columnChoices);
             model.addAttribute("defterm", searchTerm);
+            model.addAttribute("resAmt", jobs.size() + " results found");
         }
         return "search";
     }
